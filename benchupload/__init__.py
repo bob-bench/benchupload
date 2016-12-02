@@ -1,2 +1,1 @@
-from . import xunit
-from . import cidetect
+__all__ = [ 'cidetect', 'xunit' ]
