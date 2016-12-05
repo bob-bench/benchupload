@@ -28,7 +28,7 @@ def post(url, ci, fnames):
     }
     res = requests.post(xunit_dest_url, data=data, files=files)
     if res.status_code != 200:
-        sys.stderr.write("Failed to POST resources")
+        sys.stderr.write("Failed to POST resources\n")
         sys.exit(43)
 
 def main():
