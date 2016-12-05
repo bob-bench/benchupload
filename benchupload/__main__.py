@@ -24,7 +24,8 @@ def post(url, ci, fnames):
         'x-branch':     ci.branch,
         'x-buildnr':    ci.build_nr,
         'x-os-name':    ci.os_name,
-        'x-repo-url':   ci.repo_url
+        'x-repo-url':   ci.repo_url,
+        'x-ci':         ci.system_name()
     }
     res = requests.post(xunit_dest_url, data=data, files=files)
     if res.status_code != 200:

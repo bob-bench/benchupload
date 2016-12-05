@@ -43,6 +43,9 @@ class TravisCI(CISystem):
       https://docs.travis-ci.com/user/environment-variables
     """
 
+    def system_name(self):
+        return "travis-ci"
+
     @staticmethod
     def detect():
         if os.getenv('CI') != 'true' or os.getenv('TRAVIS') != 'true' or os.getenv('SHIPPABLE') == 'true':
