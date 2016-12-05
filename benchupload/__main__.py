@@ -16,7 +16,7 @@ import requests
 xunit_dest_url = "https://api.bob-bench.org/v1/xunit_upload.pl"
 
 def post(url, ci, fnames):
-    files = map(lambda x: {os.path.basename(x): open(x, 'rb')}, fnames)
+    files = list(map(lambda x: (os.path.basename(x), open(x, 'rb')), fnames))
     data = {
         'x-is-github':  ci.is_github,
         'x-commit':     ci.commit,
