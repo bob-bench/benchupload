@@ -8,6 +8,7 @@ Bob-Bench xUnit file detection
 
 from benchupload import xunit
 from benchupload import cidetect
+import argparse
 import os
 import sys
 import requests
@@ -32,13 +33,19 @@ def post(url, ci, fnames):
         sys.stderr.write("Failed to POST resources\n")
         sys.exit(43)
 
+def parsed_args():
+    parser = argparse.ArgumentParser(description="Upload handling")
+    parser.add_argument('--dir', dest='start_dir', default=os.curdir, help="Start directory")
+    return parser.parse_args()
+
 def main():
+    args = parsed_args()
     ci = cidetect.detect()
     if not ci:
         sys.stderr.write("No CI system reported. Please report it to cidetect@bob-bench.org\n")
         sys.exit(42)
 
-    files = xunit.detect_xunit_files(os.curdir)
+    files = xunit.detect_xunit_files(args.start_dir)
     if len(files) == 0:
         sys.stdout.write("No XML test results detected\n")
         sys.exit(0)
