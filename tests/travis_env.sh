@@ -1,0 +1,10 @@
+export CI=true
+export TRAVIS=true
+unset SHIPPABLE
+export TRAVIS_REPO_SLUG=bobbench/citool
+export TRAVIS_COMMIT=1234abcdef
+export TRAVIS_COMMIT_RANGE=???
+export TRAVIS_TAG=
+export TRAVIS_BRANCH=branchname
+export TRAVIS_JOB_NUMBER=4.1
+export TRAVIS_OS_NAME=linux
