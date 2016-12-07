@@ -5,5 +5,11 @@ python:
   - "3.4"
   - "3.5"
   - "nightly"
-install: "pip install -r requirements.txt"
-script: python -mbenchupload --help
+install:
+  - "pip install -r requirements.txt"
+  - "pip install -r tests/requirements.txt"
+script:
+  - python -mbenchupload --help
+  - env
+  - mkdir results/
+  - python -mpytest --junitxml=results/result.xml tests/tests.py
