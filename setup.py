@@ -9,7 +9,7 @@ config = {
     'url': 'http://www.bob-bench.org',
     'download_url': 'http://www.bob-bench.org',
     'author_email': 'help@bob-bench.org',
-    'version': '4',
+    'version': '5',
     'install_requires': [
         'requests',
     ],
