@@ -14,8 +14,6 @@ import sys
 import requests
 
 
-xunit_dest_url = "https://api.bob-bench.org/v1/xunit_upload.pl"
-
 def post(url, ci, fnames):
     files = list(map(lambda x: (os.path.basename(x), open(x, 'rb')), fnames))
     data = {
@@ -28,7 +26,7 @@ def post(url, ci, fnames):
         'x-repo-url':   ci.repo_url,
         'x-ci':         ci.system_name()
     }
-    res = requests.post(xunit_dest_url, data=data, files=files)
+    res = requests.post(url, data=data, files=files)
     if res.status_code != 200:
         sys.stderr.write("Failed to POST resources\n")
         sys.exit(43)
@@ -36,6 +34,7 @@ def post(url, ci, fnames):
 def parsed_args():
     parser = argparse.ArgumentParser(description="Upload handling")
     parser.add_argument('--dir', dest='start_dir', default=os.curdir, help="Start directory")
+    parser.add_argument('--url', dest='url', default='https://api.bob-bench.org/v1/xunit_upload.pl', help="Uplpad URL")
     return parser.parse_args()
 
 def main():
@@ -50,7 +49,7 @@ def main():
         sys.stdout.write("No XML test results detected\n")
         sys.exit(0)
 
-    post(xunit_dest_url, ci, files)
+    post(args.url, ci, files)
 
 if __name__ == "__main__":
     main()
