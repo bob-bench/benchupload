@@ -12,3 +12,9 @@ script:
   - python -mbenchupload --help
   - mkdir results/
   - python -mpytest --junitxml=results/result.xml tests/tests.py
+
+# Upload the test result with our software
+after_success:
+   - python -mbenchupload --dir=results
+after_failure:
+   - python -mbenchupload --dir=results
