@@ -51,6 +51,7 @@ def main():
         sys.exit(0)
 
     post(args.url, ci, files)
+    sys.stdout.write("Uploaded {} files\n".format(len(files)))
 
 if __name__ == "__main__":
     main()
