@@ -14,13 +14,14 @@ class CISystem(object):
     like TravisCI, Jenkins or many more. My subclasses are
     instantiated by calling the static detect method.
     """
-    def __init__(self, github_slug=None, commit=None, commit_range=None, tag=None, branch=None, build_nr=None, os_name=None):
+    def __init__(self, github_slug=None, commit=None, commit_range=None, tag=None, branch=None, build_nr=None, os_name=None, job_id=None):
         self.commit = commit
         self.commit_range = commit_range
         self.tag = tag
         self.branch = branch
         self.build_nr = build_nr
         self.os_name = os_name
+        self.job_id = job_id
 
         # specific github, bitbucket, custom?
         self.repo_url = self.build_url(github_slug)
@@ -58,7 +59,8 @@ class TravisCI(CISystem):
                 tag=os.getenv('TRAVIS_TAG'),
                 branch=os.getenv('TRAVIS_BRANCH'),
                 build_nr=os.getenv('TRAVIS_JOB_NUMBER'),
-                os_name=os.getenv('TRAVIS_OS_NAME'))
+                os_name=os.getenv('TRAVIS_OS_NAME'),
+                job_id=os.getenv('TRAVIS_JOB_ID'))
 
 
 def detect():

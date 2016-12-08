@@ -24,7 +24,8 @@ def post(url, ci, fnames):
         'x-buildnr':    ci.build_nr,
         'x-os-name':    ci.os_name,
         'x-repo-url':   ci.repo_url,
-        'x-ci':         ci.system_name()
+        'x-ci':         ci.system_name(),
+        'x-job-id':     ci.job_id
     }
     res = requests.post(url, data=data, files=files)
     if res.status_code != 200:

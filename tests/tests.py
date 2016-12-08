@@ -28,6 +28,7 @@ class TestCIDetect(unittest.TestCase):
         os.environ['TRAVIS_BRANCH'] = 'branchname'
         os.environ['TRAVIS_JOB_NUMBER'] = '4.1'
         os.environ['TRAVIS_OS_NAME'] = 'linux'
+        os.environ['TRAVIS_JOB_ID'] = '231232133'
 
         res = cidetect.detect()
         self.assertIsNotNone(res)
@@ -40,4 +41,5 @@ class TestCIDetect(unittest.TestCase):
         self.assertEquals(res.branch, 'branchname')
         self.assertEquals(res.build_nr, '4.1')
         self.assertEquals(res.os_name, 'linux')
+        self.assertEquals(res.job_id, '231232133')
         pass
