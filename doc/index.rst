@@ -78,9 +78,9 @@ to look like:
 .. code-block:: yaml
 
   after_success:
-   - benchupload --dir=$SMALLTALK_CI_HOME
+   - benchupload --dir=$SMALLTALK_CI_BUILD
   after_failure:
-   - benchupload --dir=$SMALLTALK_CI_HOME
+   - benchupload --dir=$SMALLTALK_CI_BUILD
 
 
 
