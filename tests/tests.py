@@ -42,4 +42,37 @@ class TestCIDetect(unittest.TestCase):
         self.assertEquals(res.build_nr, '4.1')
         self.assertEquals(res.os_name, 'linux')
         self.assertEquals(res.job_id, '231232133')
-        pass
+
+    def testDetectCircleci(self):
+        os.environ['CIRCLECI'] = 'true'
+        os.environ['CI'] = 'true'
+        os.environ['CI_PULL_REQUEST'] = 'https://blabla.com/pullrequest/1'
+        os.environ['CIRCLE_ARTIFACTS'] = '/tmp/bla/'
+        os.environ['CIRCLE_BRANCH'] = 'branchname'
+        os.environ['CIRCLE_BUILD_IMAGE'] = '????'
+        os.environ['CIRCLE_BUILD_NUM'] = 'circleci.com/gh/foo/bar/123'
+        os.environ['CIRCLE_BUILD_URL'] = 'https://circleci.com/gh/circleci/frontend/933'
+        os.environ['CIRCLE_COMPARE_URL'] = 'https://github.com/bla/foo/comparestuff'
+        os.environ['CIRCLE_NODE_INDEX'] = '0'
+        os.environ['CIRCLE_NODE_TOTAL'] = '1'
+        os.environ['CIRCLE_PREVIOUS_BUILD_NUM'] = 'circleci.com/gh/foo/bar/123'
+        os.environ['CIRCLE_PROJECT_REPONAME'] = 'bar'
+        os.environ['CIRCLE_PROJECT_USERNAME'] = 'foo'
+        os.environ['CIRCLE_REPOSITORY_URL'] = 'https://github.com/circleci/frontend'
+        os.environ['CIRCLE_SHA1'] = '1234abcdef'
+        os.environ['CIRCLE_TEST_REPORTS'] = '/tmp/bla/out'
+        os.environ['CIRCLE_USERNAME'] = 'foo'
+        os.environ['CIRCLE_TAG'] = 'release-v1.5.4'
+
+        res = cidetect.detect()
+        self.assertIsNotNone(res)
+        self.assertEquals(res.system_name(), "circleci")
+        self.assertTrue(res.is_github)
+        self.assertEquals(res.commit, '1234abcdef')
+        self.assertEquals(res.commit_range, '1234abcdef')
+        self.assertEquals(res.repo_url, 'https://github.com/circleci/frontend')
+        self.assertEquals(res.tag, 'release-v1.5.4')
+        self.assertEquals(res.branch, 'branchname')
+        self.assertEquals(res.build_nr, 'circleci.com/gh/foo/bar/123')
+        self.assertEquals(res.os_name, 'linux')
+        self.assertEquals(res.job_id, 'https://circleci.com/gh/circleci/frontend/933')

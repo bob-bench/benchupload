@@ -1,5 +1,5 @@
 """
-Copyright (C) 2016 by Strong Leaf Consultant Ltd.
+Copyright (C) 2016-2017 by Strong Leaf Consultant Ltd.
 
 GNU AGPL v3+
 
@@ -14,7 +14,7 @@ class CISystem(object):
     like TravisCI, Jenkins or many more. My subclasses are
     instantiated by calling the static detect method.
     """
-    def __init__(self, github_slug=None, commit=None, commit_range=None, tag=None, branch=None, build_nr=None, os_name=None, job_id=None):
+    def __init__(self, github_slug=None, commit=None, commit_range=None, tag=None, branch=None, build_nr=None, os_name=None, job_id=None, repo_url=None):
         self.commit = commit
         self.commit_range = commit_range
         self.tag = tag
@@ -24,8 +24,16 @@ class CISystem(object):
         self.job_id = job_id
 
         # specific github, bitbucket, custom?
-        self.repo_url = self.build_url(github_slug)
-        self.is_github = github_slug != None
+        if repo_url:
+            self.repo_url = repo_url
+            self.is_github = self.looks_like_github(repo_url)
+        else:
+            self.repo_url = self.build_url(github_slug)
+            self.is_github = github_slug != None
+
+    def looks_like_github(self, repo_url):
+        """See if this url looks like github. Assume https for now"""
+        return "https://github.com/" in repo_url
 
     def build_url(self, github_slug):
         """In the future I will know about bitbucket, etc"""
@@ -61,6 +69,34 @@ class TravisCI(CISystem):
                 build_nr=os.getenv('TRAVIS_JOB_NUMBER'),
                 os_name=os.getenv('TRAVIS_OS_NAME'),
                 job_id=os.getenv('TRAVIS_JOB_ID'))
+
+class CircleCI(CISystem):
+    """
+    I was created in Hanoi and get detect CircleCI as CI
+    system. The environment are documented and also found
+    by other people:
+
+      https://circleci.com/docs/environment-variables/
+      https://gist.github.com/steinnes/248a144861547c719f89b55bcda297b5
+    """
+
+    def system_name(self):
+        return "circleci"
+
+    @staticmethod
+    def detect():
+        if os.getenv('CI') != 'true' or os.getenv('CIRCLECI') != 'true':
+            return None
+
+        return CircleCI(
+                repo_url=os.getenv('CIRCLE_REPOSITORY_URL'),
+                commit=os.getenv('CIRCLE_SHA1'),
+                commit_range=os.getenv('CIRCLE_SHA1'),
+                tag=os.getenv('CIRCLE_TAG'),
+                branch=os.getenv('CIRCLE_BRANCH'),
+                build_nr=os.getenv('CIRCLE_BUILD_NUM'),
+                os_name='linux',
+                job_id=os.getenv('CIRCLE_BUILD_URL'))
 
 
 def detect():
