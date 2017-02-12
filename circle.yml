@@ -1,0 +1,3 @@
+test:
+    post:
+      - python -mbenchupload --dir=$CIRCLE_TEST_REPORTS

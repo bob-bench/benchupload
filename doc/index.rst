@@ -42,11 +42,32 @@ for xUnit files.
 Supported CIs
 =============
 
-Currently the wonderful travis-ci_ service is supported. In
-the future we will add detection for more services. Please
+Currently the circleci_ and travis-ci_ service are supported.
+In the future we will add detection for more services. Please
 inform us about your demand.
 
+.. _circleci: https://circleci.com
 .. _travis-ci: https://travis-ci.org
+
+
+Circleci
+========
+
+Circleci is continous integration platform with good
+docker integration. One needs to install the benchupload
+utility and then upload the result. The circle.yml file
+needs to be changed to include the following:
+
+.. code-block:: yaml
+
+  dependencies:
+    post:
+      - pip install benchupload
+  test:
+    post:
+      - python -mbenchupload --dir=$CIRCLE_TEST_REPORTS
+
+
 
 Travis-CI
 =========
