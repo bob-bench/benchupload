@@ -51,7 +51,7 @@ inform us about your demand.
 
 
 Circleci
-========
+--------
 
 Circleci is continous integration platform with good
 docker integration. One needs to install the benchupload
@@ -70,7 +70,7 @@ needs to be changed to include the following:
 
 
 Travis-CI
-=========
+---------
 
 Travis-CI is the first supported system and used during
 the development of the bob-bench.org_ service. One needs to
@@ -103,7 +103,14 @@ to look like:
   after_failure:
    - benchupload --dir=$SMALLTALK_CI_BUILD
 
+Project example
+---------------
 
+The `moiji-mobile SMSC`_ is hosted on github, using travis-ci
+for CI and bob-bench to track the test execution.
+
+
+.. _moiji-mobile SMSC: https://github.com/moiji-mobile/smsc
 
 Indices and tables
 ==================
