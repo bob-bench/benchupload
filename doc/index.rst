@@ -81,7 +81,7 @@ to include the following:
 .. code-block:: yaml
 
   install:
-   - pip install benchupload
+   - pip install --user benchupload
   after_success:
    - benchupload
   after_failure:
