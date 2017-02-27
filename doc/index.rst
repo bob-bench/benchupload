@@ -83,9 +83,9 @@ to include the following:
   install:
    - pip install --user benchupload
   after_success:
-   - benchupload
+   - python -mbenchupload
   after_failure:
-   - benchupload
+   - python -mbenchupload
 
 
 Smalltalk CI example
@@ -99,9 +99,9 @@ to look like:
 .. code-block:: yaml
 
   after_success:
-   - benchupload --dir=$SMALLTALK_CI_BUILD
+   - python -mbenchupload --dir=$SMALLTALK_CI_BUILD
   after_failure:
-   - benchupload --dir=$SMALLTALK_CI_BUILD
+   - python -mbenchupload --dir=$SMALLTALK_CI_BUILD
 
 Project example
 ---------------
