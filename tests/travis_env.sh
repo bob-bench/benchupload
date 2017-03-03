@@ -8,3 +8,4 @@ export TRAVIS_TAG=
 export TRAVIS_BRANCH=branchname
 export TRAVIS_JOB_NUMBER=4.1
 export TRAVIS_OS_NAME=linux
+export TRAVIS_PULL_REQUEST=false

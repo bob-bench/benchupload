@@ -14,7 +14,7 @@ class CISystem(object):
     like TravisCI, Jenkins or many more. My subclasses are
     instantiated by calling the static detect method.
     """
-    def __init__(self, github_slug=None, commit=None, commit_range=None, tag=None, branch=None, build_nr=None, os_name=None, job_id=None, repo_url=None):
+    def __init__(self, github_slug=None, commit=None, commit_range=None, tag=None, branch=None, build_nr=None, os_name=None, job_id=None, repo_url=None, prev_build_nr=None, is_pull_request=False, pull_request=None):
         self.commit = commit
         self.commit_range = commit_range
         self.tag = tag
@@ -22,6 +22,9 @@ class CISystem(object):
         self.build_nr = build_nr
         self.os_name = os_name
         self.job_id = job_id
+        self.prev_build_nr = prev_build_nr
+        self.is_pull_request = is_pull_request
+        self.pull_request = pull_request
 
         # specific github, bitbucket, custom?
         if repo_url:
@@ -60,6 +63,10 @@ class TravisCI(CISystem):
         if os.getenv('CI') != 'true' or os.getenv('TRAVIS') != 'true' or os.getenv('SHIPPABLE') == 'true':
             return None
 
+        pr = None
+        if os.getenv('TRAVIS_PULL_REQUEST') != 'false':
+            pr = os.getenv('TRAVIS_PULL_REQUEST')
+
         return TravisCI(
                 github_slug=os.getenv('TRAVIS_REPO_SLUG'),
                 commit=os.getenv('TRAVIS_COMMIT'),
@@ -68,7 +75,9 @@ class TravisCI(CISystem):
                 branch=os.getenv('TRAVIS_BRANCH'),
                 build_nr=os.getenv('TRAVIS_JOB_NUMBER'),
                 os_name=os.getenv('TRAVIS_OS_NAME'),
-                job_id=os.getenv('TRAVIS_JOB_ID'))
+                job_id=os.getenv('TRAVIS_JOB_ID'),
+                is_pull_request=pr is not None,
+                pull_request=pr)
 
 class CircleCI(CISystem):
     """
@@ -95,6 +104,7 @@ class CircleCI(CISystem):
                 tag=os.getenv('CIRCLE_TAG'),
                 branch=os.getenv('CIRCLE_BRANCH'),
                 build_nr=os.getenv('CIRCLE_BUILD_NUM'),
+                prev_build_nr=os.getenv('CIRCLE_PREVIOUS_BUILD_NUM'),
                 os_name='linux',
                 job_id=os.getenv('CIRCLE_BUILD_URL'))
 

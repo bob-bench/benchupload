@@ -29,6 +29,7 @@ class TestCIDetect(unittest.TestCase):
         os.environ['TRAVIS_JOB_NUMBER'] = '4.1'
         os.environ['TRAVIS_OS_NAME'] = 'linux'
         os.environ['TRAVIS_JOB_ID'] = '231232133'
+        os.environ['TRAVIS_PULL_REQUEST'] = 'false'
 
         res = cidetect.detect()
         self.assertIsNotNone(res)
@@ -40,8 +41,16 @@ class TestCIDetect(unittest.TestCase):
         self.assertEquals(res.tag, '')
         self.assertEquals(res.branch, 'branchname')
         self.assertEquals(res.build_nr, '4.1')
+        self.assertEquals(res.prev_build_nr, None)
         self.assertEquals(res.os_name, 'linux')
         self.assertEquals(res.job_id, '231232133')
+        self.assertEquals(res.is_pull_request, False)
+
+        os.environ['TRAVIS_PULL_REQUEST'] = '33.4'
+        res = cidetect.detect()
+        self.assertIsNotNone(res)
+        self.assertEquals(res.is_pull_request, True)
+        self.assertEquals(res.pull_request, '33.4')
 
     def testDetectCircleci(self):
         os.environ['CIRCLECI'] = 'true'
@@ -55,7 +64,7 @@ class TestCIDetect(unittest.TestCase):
         os.environ['CIRCLE_COMPARE_URL'] = 'https://github.com/bla/foo/comparestuff'
         os.environ['CIRCLE_NODE_INDEX'] = '0'
         os.environ['CIRCLE_NODE_TOTAL'] = '1'
-        os.environ['CIRCLE_PREVIOUS_BUILD_NUM'] = 'circleci.com/gh/foo/bar/123'
+        os.environ['CIRCLE_PREVIOUS_BUILD_NUM'] = 'circleci.com/gh/foo/bar/122'
         os.environ['CIRCLE_PROJECT_REPONAME'] = 'bar'
         os.environ['CIRCLE_PROJECT_USERNAME'] = 'foo'
         os.environ['CIRCLE_REPOSITORY_URL'] = 'https://github.com/circleci/frontend'
@@ -74,5 +83,6 @@ class TestCIDetect(unittest.TestCase):
         self.assertEquals(res.tag, 'release-v1.5.4')
         self.assertEquals(res.branch, 'branchname')
         self.assertEquals(res.build_nr, 'circleci.com/gh/foo/bar/123')
+        self.assertEquals(res.prev_build_nr, 'circleci.com/gh/foo/bar/122')
         self.assertEquals(res.os_name, 'linux')
         self.assertEquals(res.job_id, 'https://circleci.com/gh/circleci/frontend/933')
