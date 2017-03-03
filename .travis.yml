@@ -10,11 +10,14 @@ install:
   - "pip install -r tests/requirements.txt"
 script:
   - python -mbenchupload --help
+  - python -mmetricupload --help
   - mkdir results/
   - python -mpytest --junitxml=results/result.xml tests/tests.py
 
 # Upload the test result with our software
 after_success:
    - python -mbenchupload --dir=results
+   - python -mmetricupload ./tests/files/example.json
 after_failure:
    - python -mbenchupload --dir=results
+   - python -mmetricupload ./tests/files/example.json

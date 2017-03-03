@@ -1,0 +1,10 @@
+{
+	"version": 1,
+	"metrics": [
+		{
+			"name": "Total size",
+			"value": 3.4,
+			"unit": "KiB"
+		}
+	]
+}

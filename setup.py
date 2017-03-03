@@ -9,14 +9,17 @@ config = {
     'url': 'http://www.bob-bench.org',
     'download_url': 'http://www.bob-bench.org',
     'author_email': 'help@bob-bench.org',
-    'version': '6',
+    'version': '7',
     'install_requires': [
+        'jsonschema==2.6.0',
         'requests',
     ],
     'license': 'AGPLv3+',
     'packages': ['benchupload'],
     'scripts': [],
-    'entry_points': {'console_scripts': ['benchupload=benchupload.__main__:main']},
+    'entry_points': {'console_scripts': [
+                        'benchupload=benchupload.__main__:main',
+                        'metricupload=metricupload.__main__:main']},
     'name': 'benchupload'
 }
 
