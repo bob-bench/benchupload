@@ -80,12 +80,8 @@ to include the following:
 
 .. code-block:: yaml
 
-  install:
-   - pip install --user benchupload
-  after_success:
-   - python -mbenchupload
-  after_failure:
-   - python -mbenchupload
+  after_script:
+   - pip install --user benchupload && python -mbenchupload
 
 
 Smalltalk CI example
@@ -98,10 +94,8 @@ to look like:
 
 .. code-block:: yaml
 
-  after_success:
-   - python -mbenchupload --dir=$SMALLTALK_CI_BUILD
-  after_failure:
-   - python -mbenchupload --dir=$SMALLTALK_CI_BUILD
+  after_script:
+   - pip install --user benchupload && python -mbenchupload --dir=$SMALLTALK_CI_HOME
 
 Project example
 ---------------
