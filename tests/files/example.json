@@ -4,7 +4,13 @@
 		{
 			"name": "Total size",
 			"value": 3.4,
+			"comment": "A comment",
 			"unit": "KiB"
+		},
+		{
+			"name": "Time used",
+			"value": 6,
+			"unit": "ms"
 		}
 	]
 }

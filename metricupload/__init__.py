@@ -8,7 +8,8 @@ schema = {
                     "properties": {
                         "name": {"type": "string"},
                         "value": {"type": "number"},
-                        "unit": {"type": "string"}
+                        "unit": {"type": "string"},
+                        "comment": {"type": "string"}
                     },
                     "required": ["name", "value", "unit"],
                     "additionalProperties": False,

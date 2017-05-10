@@ -12,7 +12,7 @@ script:
   - python -mbenchupload --help
   - python -mmetricupload --help
   - mkdir results/
-  - python -mpytest --junitxml=results/result.xml tests/tests.py
+  - python -mpytest --junitxml=results/result.xml tests/tests.py tests/metric_tests.py
 
 # Upload the test result with our software
 after_success:
