@@ -26,7 +26,8 @@ def post(url, ci, fnames):
         'x-repo-url':   ci.repo_url,
         'x-ci':         ci.system_name(),
         'x-job-id':     ci.job_id,
-        'x-prev-buildnr': ci.prev_build_nr
+        'x-prev-buildnr': ci.prev_build_nr,
+        'x-is-pr':      ci.is_pull_request
     }
     res = requests.post(url, data=data, files=files)
     if res.status_code != 200:
@@ -45,10 +46,6 @@ def main():
     if not ci:
         sys.stderr.write("No CI system reported. Please report it to cidetect@bob-bench.org\n")
         sys.exit(42)
-
-    if ci.is_pull_request:
-        sys.stdout.write("Skipping on pull-request\n")
-        sys.exit(0)
 
     files = xunit.detect_xunit_files(args.start_dir)
     if len(files) == 0:
