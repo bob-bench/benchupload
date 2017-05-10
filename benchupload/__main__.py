@@ -31,7 +31,8 @@ def post(url, ci, fnames):
     }
     res = requests.post(url, data=data, files=files)
     if res.status_code != 200:
-        sys.stderr.write("Failed to POST resources\n")
+        err_msg = "Failed to POST resources: code({})/text({})\n".format(res.status_code, res.text)
+        sys.stderr.write(err_msg)
         sys.exit(43)
 
 def parsed_args():
