@@ -74,7 +74,7 @@ def main():
         sys.exit(0)
 
     post(args.url, ci, args.files)
-    sys.stdout.write("Uploaded {} files\n".format(len(files)))
+    sys.stdout.write("Uploaded {} files\n".format(len(args.files)))
 
 if __name__ == "__main__":
     main()
