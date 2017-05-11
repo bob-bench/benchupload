@@ -1,3 +1,4 @@
 test:
     post:
       - python -mbenchupload --dir=$CIRCLE_TEST_REPORTS
+      - python -mmetricupload ./tests/files/example.json
